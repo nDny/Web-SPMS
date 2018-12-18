@@ -3,14 +3,17 @@ import './table.css';
 
 class PortfolioTable extends Component {
     render() {
+
+        let portfolioTotal = 2;
+
         return (
-            <div>
-                <table>
-                    <TableHeader />
-                    
-                    <TableFooter />
-                </table>
-            </div>
+            <table className='portfolioTable'>
+                <TableHeader />
+                <tbody>
+                    <TableData />
+                </tbody>
+                <TableFooter total={portfolioTotal}/>
+            </table>
         );
     }
 }
@@ -19,7 +22,7 @@ class TableHeader extends Component {
     render() {
         return (
             <thead>
-                <tr>
+                <tr className='tableHead'>
                     <th>Symbol</th>
                     <th>Unit Value</th>
                     <th>Quantity</th>
@@ -28,6 +31,20 @@ class TableHeader extends Component {
                 </tr>
             </thead>
         );
+    }
+}
+
+class TableData extends Component {
+    render() {
+      return (
+        <tr>
+            <td>TSLA</td>
+            <td>8.12€</td>
+            <td>125</td>
+            <td>1875.44€</td>
+            <td></td>
+        </tr>
+      )
     }
 }
 

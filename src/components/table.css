@@ -1,5 +1,14 @@
+.portfolioTable {
+  border: 1px solid black;
+}
+
+.portfolioTable td{
+  border: 1px solid black;
+}
+
 tfoot {
     display: table-footer-group;
     vertical-align: middle;
     border-color: inherit;
   }
+
