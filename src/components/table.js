@@ -57,8 +57,7 @@ class TableFooter extends Component {
         return (
             <tfoot>
                 <tr>
-                    <td>Total sum:</td>
-                    <td>{total}€</td>
+                    <td>Total sum: {total}€</td>
                 </tr>
             </tfoot>
         );

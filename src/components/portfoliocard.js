@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PortfolioTable from './table.js';
 import {AddPortfolioButton} from './buttons.js';
+import './cards.css';
 
 const url = 'https://www.alphavantage.co/query';
 const apikey = 'DKS7EZJHQPLHV5WG';
@@ -31,7 +32,13 @@ class PortfolioCards extends Component {
           <AddPortfolioButton onClick={this.addNewPortfolio}/>
         </div>
         <div id="cards">
-          {
+          {this.state.portfolios.map(function(item, key) {
+            return (
+              <div key={key}>
+                {item}
+              </div>
+            )
+          })
           }
         </div>
       </div>
@@ -55,8 +62,8 @@ class PortfolioCard extends Component {
 
   render() {
     return (
-      <div>
-        <h1>{this.portfolioName}</h1>
+      <div className="card">
+        <h3>{this.portfolioName}</h3>
         <PortfolioData />
         
       </div>
