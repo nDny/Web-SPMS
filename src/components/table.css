@@ -1,3 +1,7 @@
+table {
+  width: 95%;
+}
+
 .portfolioTable {
   border: 1px solid black;
 }
@@ -7,8 +11,7 @@
 }
 
 tfoot {
-    display: table-footer-group;
-    vertical-align: middle;
+    /*display: table-footer-group;*/
     border-color: inherit;
   }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PortfolioTable from './table.js';
-import {AddPortfolioButton} from './buttons.js';
+import {CardButton, CardButtonGroup} from './buttons.js';
 import './cards.css';
 
 const url = 'https://www.alphavantage.co/query';
@@ -14,6 +14,7 @@ class PortfolioCards extends Component {
     this.state = {portfolios: []};
 
     this.addNewPortfolio = this.addNewPortfolio.bind(this);
+    this.deletePortfolio = this.deletePortfolio.bind(this);
   }
 
   addNewPortfolio() {
@@ -25,11 +26,15 @@ class PortfolioCards extends Component {
     })
   }
 
+  deletePortfolio() {
+
+  }
+
   render() {
     return (
       <div className="PortfolioCards">
         <div id="firstRow">
-          <AddPortfolioButton onClick={this.addNewPortfolio}/>
+          <CardButton onClick={this.addNewPortfolio} butonId="addPortfolio" buttonText="Add new portfolio"/>
         </div>
         <div id="cards">
           {this.state.portfolios.map(function(item, key) {
@@ -58,6 +63,7 @@ class PortfolioCard extends Component {
     this.setState({
       stocks: this.state.stocks + 1
     })
+    console.log(this.state.stocks);
   }
 
   render() {
@@ -65,7 +71,9 @@ class PortfolioCard extends Component {
       <div className="card">
         <h3>{this.portfolioName}</h3>
         <PortfolioData />
-        
+        <CardButtonGroup 
+          addStockClick={this.addNewStock}
+        />
       </div>
     )
   }
@@ -76,19 +84,26 @@ class PortfolioData extends Component {
   constructor(props) {
     super(props);
     this.requestData = "";
-
+    this.params = {};
     this.state = {data: []};
   }
+
+
 
   fetchData() {
     fetch(url)
       .then(response => response.json())
-      .then(data => this.setState({data}));
+      .then(data => this.setState({data}))
+      .catch(console.log('Error'));
+  }
+
+  handleData() {
+
   }
 
   render() {
     return (
-      <div>
+      <div className="tableDiv">
         <PortfolioTable />
 
 

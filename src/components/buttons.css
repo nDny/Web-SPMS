@@ -1,0 +1,24 @@
+.CardButtonGroup {
+    width: 100%;
+}
+
+#addPortfolio {
+    color: blue;
+    /*width: 10%;*/
+}
+
+#addStock {
+    width: 22%;
+}
+
+#viewGraph {
+    width: 22%;
+}
+
+#removeStock {
+    width: 22%;
+}
+
+#deletePortfolio {
+    width: 22%;
+}
