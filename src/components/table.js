@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './table.css';
 
 class PortfolioTable extends Component {
+    stocks = this.props.stocks;
     render() {
 
         let portfolioTotal = 2;
@@ -10,7 +11,7 @@ class PortfolioTable extends Component {
             <table className='portfolioTable'>
                 <TableHeader />
                 <tbody>
-                    <TableData />
+                    
                 </tbody>
                 <TableFooter total={portfolioTotal}/>
             </table>
@@ -34,19 +35,26 @@ class TableHeader extends Component {
     }
 }
 
+/*
 class TableData extends Component {
+    symbol = this.props.symbol;
+    value = this.props.value;
+    quantity = this.props.quantity;
+    currency = this.props.currency;
     render() {
+        let total = value*quantity;
       return (
         <tr>
-            <td>TSLA</td>
-            <td>8.12€</td>
-            <td>125</td>
-            <td>1875.44€</td>
+            <td>{symbol}{currency}</td>
+            <td>{value}{currency}</td>
+            <td>{quantity}{currency}</td>
+            <td>{total}{currency}</td>
             <td></td>
         </tr>
       )
     }
 }
+*/
 
 class TableFooter extends Component {
     render() {

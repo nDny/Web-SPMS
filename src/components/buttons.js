@@ -4,18 +4,18 @@ import './buttons.css';
 class CardButtonGroup extends React.Component {
     constructor(props) {
         super(props);
-        this.addStockClick = props.addStockClick;
+        this.onAddNew = props.onAddNew;
         this.viewGraphClick = props.viewGraphClick;
-        this.removeStockClick = props.removeStockClick;
-        this.deletePortfolioClick = props.deletePortfolioClick;
+        this.onRemoveSelected = props.onRemoveSelected;
+        this.onDeletePortfolio = props.onDeletePortfolio;
     }
     render() {
         return (
              <div className="buttonGroupDiv">
-                <CardButton onClick={this.addStockClick} buttonId="addStock" buttonText="Add stock"/>
+                <CardButton onClick={this.onAddNew} buttonId="addStock" buttonText="Add stock"/>
                 <CardButton onClick={this.viewGraphClick} buttonId="viewGraph" buttonText="View graph"/>
-                <CardButton onClick={this.removeStockClick} buttonId="removeStock" buttonText="Remove stock"/>
-                <CardButton onClick={this.deletePortfolioClick} buttonId="deletePortfolio" buttonText="Delete portfolio"/>
+                <CardButton onClick={this.onRemoveSelected} buttonId="removeStock" buttonText="Remove selected"/>
+                <CardButton onClick={this.onDeletePortfolio} buttonId="deletePortfolio" buttonText="Delete portfolio"/>
              </div>
         );
     }
