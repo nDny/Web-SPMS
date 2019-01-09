@@ -9,11 +9,11 @@ const url = 'https://www.alphavantage.co/query';
 const apikey = 'DKS7EZJHQPLHV5WG';
 
 class StockCard extends React.Component {
-  portfolioName = this.props.portfolioName;
   onDeletePortfolio = this.props.onDeletePortfolio;
   id = this.props.id
 
     state = {
+      isFull: false,
       stocks: [],
       show: false,
       stockName: "",
@@ -22,8 +22,8 @@ class StockCard extends React.Component {
       total: 0
     }
 
-    delete(id) {
-      this.onDeletePortfolio(id);
+    onDelete = () => {
+      this.onDeletePortfolio(this.id);
     }
 
     onChange = (e) => {
@@ -33,9 +33,16 @@ class StockCard extends React.Component {
     }
 
     showModal = () => {
-      this.setState({
-        show: true
-      });
+      if (this.state.stocks.length > 49) {
+        this.setState({
+          isFull: true
+        });
+      } else {
+        this.setState({
+          show: true
+        });
+      }
+      
     }
 
     handleDone = () => {
@@ -108,10 +115,15 @@ class StockCard extends React.Component {
     setTotal = () => {
       let total = 0;
       for (let i = 0; i < this.state.stocks.length; i++) {
-        console.log('current :', this.state.stocks[i].total);
         total += this.state.stocks[i].total;
       }
       return total;
+    }
+
+    resetIsFullModal = () => {
+      this.setState({
+        isFull: false
+      });
     }
 
       render() {
@@ -124,7 +136,10 @@ class StockCard extends React.Component {
             <input name="stockName" type="text" onChange={this.onChange}/>
             <input name="stockAmount" type="text" onChange={this.onChange}/>
             </Modal>
-            <h1>{this.portfolioName}</h1>
+            <Modal show={this.state.isFull} handleDone={this.resetIsFullModal}>
+              <p>Portfolio full</p>
+            </Modal>
+            <h1>{this.props.portfolioName}</h1>
             <table className="portfolioTable">
               <TableHeader />
               <tbody>
@@ -137,7 +152,7 @@ class StockCard extends React.Component {
               <TableFooter total={this.setTotal()}/>
             </table>
             <CardButtonGroup onAddNew={this.showModal} 
-                             onDeletePortfolio={this.delete.bind(this, this.id)}
+                             onDeletePortfolio={this.onDelete}
                              onRemoveSelected={this.handleRemoveSelected}
                             />
           </div>
