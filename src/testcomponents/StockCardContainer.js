@@ -31,8 +31,10 @@ class StockCardContainer extends Component {
         })
     }
 
-    handleDeletePortfolio = () => {
-        console.log('Delete button');
+    handleDeletePortfolio = (id) => {
+        this.setState(prevState => ({
+            cards: prevState.cards.filter(el => el !== id)
+        }))
     }
 
   render() {
@@ -43,10 +45,13 @@ class StockCardContainer extends Component {
                 <p>Enter portfolio name:</p>
                 <input type="text" name="portfolioName" onChange={this.onChange}/>
             </Modal>
-        {this.state.cards.map(function(item, key) {
+        {this.state.cards.map((item, key) => {
             return (
                 <div key={key}>
-                    <StockCard portfolioName={item.portfolioName}/>
+                    <StockCard portfolioName={item.portfolioName}
+                                onDeletePortfolio={this.handleDeletePortfolio}
+                                id={key}
+                    />
                 </div>
             )
         })}

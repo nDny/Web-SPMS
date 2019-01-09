@@ -11,13 +11,19 @@ const apikey = 'DKS7EZJHQPLHV5WG';
 class StockCard extends React.Component {
   portfolioName = this.props.portfolioName;
   onDeletePortfolio = this.props.onDeletePortfolio;
+  id = this.props.id
 
     state = {
       stocks: [],
       show: false,
       stockName: "",
       stockAmount: 0,
-      selected: []
+      selected: [],
+      total: 0
+    }
+
+    delete(id) {
+      this.onDeletePortfolio(id);
     }
 
     onChange = (e) => {
@@ -99,6 +105,14 @@ class StockCard extends React.Component {
       .catch(error => console.error('Error:', error));
     }
     
+    setTotal = () => {
+      let total = 0;
+      for (let i = 0; i < this.state.stocks.length; i++) {
+        console.log('current :', this.state.stocks[i].total);
+        total += this.state.stocks[i].total;
+      }
+      return total;
+    }
 
       render() {
         //console.log('selected :', this.state.selected);
@@ -120,9 +134,10 @@ class StockCard extends React.Component {
                 )
               })}
               </tbody>
+              <TableFooter total={this.setTotal()}/>
             </table>
             <CardButtonGroup onAddNew={this.showModal} 
-                             onDeletePortfolio={this.onDeletePortfolio}
+                             onDeletePortfolio={this.delete.bind(this, this.id)}
                              onRemoveSelected={this.handleRemoveSelected}
                             />
           </div>
@@ -156,6 +171,16 @@ const TableHeader = () => {
         <th>Selected</th>
       </tr>
     </thead>
+  )
+}
+
+const TableFooter = (props) => {
+  return (
+    <tfoot className="tableFooter">
+      <tr>
+        <td>Total value of portfolio:{props.total}</td>
+      </tr>
+    </tfoot>
   )
 }
 
