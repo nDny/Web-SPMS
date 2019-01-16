@@ -4,6 +4,8 @@ import '../components/table.css';
 import './stockcard.css';
 import {CardButtonGroup} from '../components/buttons.js';
 import Modal from './modal.js';
+import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts';
+
 
 const url = 'https://www.alphavantage.co/query';
 const apikey = 'DKS7EZJHQPLHV5WG';
@@ -13,6 +15,7 @@ class StockCard extends React.Component {
   id = this.props.id
 
     state = {
+      showChart: false,
       currencyModifier: 1,
       selectedCurrency: "USD",
       isFull: false,
@@ -22,6 +25,18 @@ class StockCard extends React.Component {
       stockAmount: 0,
       selected: [],
       total: 0
+    }
+
+    showChartModal = () => {
+      this.setState({
+        showChart: true
+      });
+    }
+
+    hideChartModal = () => {
+      this.setState({
+        showChart: false
+      });
     }
 
     handleChangeCurrency = (e) => {
@@ -67,8 +82,7 @@ class StockCard extends React.Component {
         this.setState({
           show: true
         });
-      }
-      
+      } 
     }
 
     handleDone = () => {
@@ -156,10 +170,21 @@ class StockCard extends React.Component {
       });
     }
 
+    setGraphArray = () => {
+      
+    }
+
       render() {
-        //console.log('selected :', this.state.selected);
-        //console.log('length :', this.state.stocks.length > 0 ? "not zero" : "zero");
-    
+        const arr = [
+          {uv: 4000, pv: 2400, amt: 2400},
+          {uv: 3000, pv: 1398, amt: 2210},
+          {uv: 2000, pv: 9800, amt: 2290},
+          {uv: 2780, pv: 3908, amt: 2000},
+          {uv: 1890, pv: 4800, amt: 2181},
+          {uv: 2390, pv: 3800, amt: 2500},
+          {uv: 3490, pv: 4300, amt: 2100},
+        ];
+
         return (
           <div className="stockCard">
             <Modal show={this.state.show} handleDone={this.handleDone}>
@@ -170,13 +195,16 @@ class StockCard extends React.Component {
             <Modal show={this.state.isFull} handleDone={this.resetIsFullModal}>
               <p>Portfolio full</p>
             </Modal>
+            <Modal show={this.state.showChart} handleDone={this.hideChartModal}>
+              <GraphStuff data={arr}/>
+            </Modal>
             <h2 className="title-name">{this.props.portfolioName}</h2>
             <div align="center" className="curr-buttons">
               <label>
-                <input type="radio" name="currency" value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>Usd
+                <input type="radio" name="currency" value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>USD
               </label>
               <label>
-                <input type="radio" name="currency" value="EUR" checked={this.state.selectedCurrency === 'EUR'} onChange={this.handleChangeCurrency}/>Eur
+                <input type="radio" name="currency" value="EUR" checked={this.state.selectedCurrency === 'EUR'} onChange={this.handleChangeCurrency}/>EUR
               </label>
             </div>
             <table className="portfolioTable">
@@ -193,10 +221,28 @@ class StockCard extends React.Component {
             <CardButtonGroup onAddNew={this.showModal} 
                              onDeletePortfolio={this.onDelete}
                              onRemoveSelected={this.handleRemoveSelected}
+                             onViewGraph={this.showChartModal}
                             />
           </div>
         )
       }
+}
+
+class GraphStuff extends React.Component {
+  render() {
+    return (
+      <div align="center">
+        <LineChart width={600} height={300} data={this.props.data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
+          <Line type="monotone" dataKey="amt" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <XAxis dataKey="name" />
+          <YAxis />
+        </LineChart>
+      </div>
+    )
+  }
 }
 
 class TableStock extends React.Component {

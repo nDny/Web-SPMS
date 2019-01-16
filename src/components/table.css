@@ -2,17 +2,17 @@ table {
   width: 95%;
 }
 
-.tableHead tr{
+.tableHead th{
   background-color: white;
 }
 
 .portfolioTable {
-  border: 1px solid black;
+  border: 3px solid black;
   border-radius: 5px;
 }
 
 .portfolioTable tr:nth-child(odd) {
-  background-color: lightslategray;
+  background-color: #a5a5a5;
 }
 
 .portfolioTable tr:nth-child(even) {
@@ -23,10 +23,16 @@ table {
   border: 1px solid black;
 }
 
-
+.table-contents {
+  border: 2px solid black;
+}
 
 tfoot {
     /*display: table-footer-group;*/
     border-color: inherit;
   }
+
+tfoot td {
+  background-color: white;
+}
 

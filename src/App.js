@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import StockCardContainer from './testcomponents/StockCardContainer.js';
+import StockCardContainer from './newcomponents/StockCardContainer.js';
 
 class App extends Component {
   render() {

@@ -1,6 +1,7 @@
 .stockCard {
+    margin-top: 2%;
     background: #f2f4f4;
-    border: 2px solid black;
+    border: 3px double black;
     border-radius: 5px;
 }
 

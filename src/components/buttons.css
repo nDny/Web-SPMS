@@ -3,32 +3,26 @@
 }
 
 #addPortfolio {
-    height: auto;
     width: 50%;
 }
 
 #addStock {
-    height: auto;
     width: 22%;
 }
 
 #viewGraph {
-    height: auto;
     width: 22%;
 }
 
 #removeStock {
-    height: auto;
     width: 22%;
 }
 
 #deletePortfolio {
-    height: auto;
     width: 22%;
 }
 
 .stock-button {
-    font-size: 2vw;
     border: 2px groove black;
     border-radius: 10px;
 }
