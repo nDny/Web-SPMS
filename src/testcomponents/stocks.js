@@ -163,13 +163,14 @@ class StockCard extends React.Component {
         return (
           <div className="stockCard">
             <Modal show={this.state.show} handleDone={this.handleDone}>
-            <input name="stockName" type="text" onChange={this.onChange}/>
-            <input name="stockAmount" type="text" onChange={this.onChange}/>
+              <label>Stock symbol: <input name="stockName" type="text" onChange={this.onChange}/></label>
+              <br/>
+              <label>Number of stocks: <input name="stockAmount" type="text" onChange={this.onChange}/></label>
             </Modal>
             <Modal show={this.state.isFull} handleDone={this.resetIsFullModal}>
               <p>Portfolio full</p>
             </Modal>
-            <h1>{this.props.portfolioName}</h1>
+            <h2 className="title-name">{this.props.portfolioName}</h2>
             <div align="center" className="curr-buttons">
               <label>
                 <input type="radio" name="currency" value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>Usd
@@ -180,7 +181,7 @@ class StockCard extends React.Component {
             </div>
             <table className="portfolioTable">
               <TableHeader />
-              <tbody>
+              <tbody className="table-contents">
               {this.state.stocks.map((item, key) => {
                 return (
                   <TableStock data={item} key={key} id={key} onSelect={this.handleSelected} currency={this.state.selectedCurrency}/>

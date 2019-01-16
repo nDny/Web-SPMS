@@ -22,7 +22,7 @@ class CardButtonGroup extends React.Component {
 } 
 
 const CardButton = ({onClick, buttonId, buttonText}) => (
-    <button id={buttonId} onClick={onClick}>{buttonText}</button>
+    <button id={buttonId} onClick={onClick} className='stock-button'>{buttonText}</button>
 );
 
 export {CardButton, CardButtonGroup};

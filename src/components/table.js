@@ -35,26 +35,6 @@ class TableHeader extends Component {
     }
 }
 
-/*
-class TableData extends Component {
-    symbol = this.props.symbol;
-    value = this.props.value;
-    quantity = this.props.quantity;
-    currency = this.props.currency;
-    render() {
-        let total = value*quantity;
-      return (
-        <tr>
-            <td>{symbol}{currency}</td>
-            <td>{value}{currency}</td>
-            <td>{quantity}{currency}</td>
-            <td>{total}{currency}</td>
-            <td></td>
-        </tr>
-      )
-    }
-}
-*/
 
 class TableFooter extends Component {
     render() {

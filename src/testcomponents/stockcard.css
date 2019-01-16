@@ -1,9 +1,13 @@
 .stockCard {
-    background: white;
+    background: #f2f4f4;
     border: 2px solid black;
-    margin-top: 10px;
+    border-radius: 5px;
 }
 
 .curr-buttons {
     margin-bottom: 10px;   
+}
+
+.title-name {
+    font-family: Arial, Helvetica, sans-serif;
 }

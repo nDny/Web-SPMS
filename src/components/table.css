@@ -2,13 +2,28 @@ table {
   width: 95%;
 }
 
+.tableHead tr{
+  background-color: white;
+}
+
 .portfolioTable {
   border: 1px solid black;
+  border-radius: 5px;
+}
+
+.portfolioTable tr:nth-child(odd) {
+  background-color: lightslategray;
+}
+
+.portfolioTable tr:nth-child(even) {
+  background-color: lightgrey;
 }
 
 .portfolioTable td{
   border: 1px solid black;
 }
+
+
 
 tfoot {
     /*display: table-footer-group;*/

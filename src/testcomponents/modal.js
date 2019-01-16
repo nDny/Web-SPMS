@@ -7,6 +7,7 @@ const Modal = ({handleDone, show, children}) => {
       <div className={showHideClassName}>
         <section className="modal-main">
           {children}
+          <br/>
           <button onClick={handleDone}>Done</button>
         </section>
       </div>
