@@ -49,16 +49,14 @@ class StockCardContainer extends Component {
     handleDeletePortfolio = (id) => {
         console.log('id :', id);
         let tempCards = [...this.state.cards];
-        tempCards.splice(id, 1);
-        for (let i = 0; i < tempCards.length; i++) {
-            tempCards[i].id = i;
-        }
+        let x = tempCards.findIndex(
+            (item) => item.id === id
+        )
+        tempCards.splice(x, 1);
         console.log('tempCards :', tempCards);
         this.setState({
-            cards: tempCards,
-            id: this.state.id - 1
+            cards: tempCards
         });
-        this.forceUpdate();
     }
 
   render() {
@@ -74,7 +72,7 @@ class StockCardContainer extends Component {
             </Modal>
         {this.state.cards.map((item, key) => {
             return (
-                <div key={key}>
+                <div key={item.id}>
                     <StockCard  portfolioName={item.portfolioName}
                                 onDeletePortfolio={this.handleDeletePortfolio}
                                 id={item.id}

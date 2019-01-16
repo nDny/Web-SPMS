@@ -13,6 +13,8 @@ class StockCard extends React.Component {
   id = this.props.id
 
     state = {
+      currencyModifier: 1,
+      selectedCurrency: "USD",
       isFull: false,
       stocks: [],
       show: false,
@@ -20,6 +22,30 @@ class StockCard extends React.Component {
       stockAmount: 0,
       selected: [],
       total: 0
+    }
+
+    handleChangeCurrency = (e) => {
+      let newCurr = e.target.value;
+      let oldCurr = this.state.selectedCurrency;
+      fetch(url+'?function=CURRENCY_EXCHANGE_RATE&from_currency='+oldCurr+'&to_currency='+newCurr+'&apikey='+apikey)
+      .then(results => {
+        return results.json();
+      }).then(data => {
+        console.log('data:', data['Realtime Currency Exchange Rate']['5. Exchange Rate']);
+        let modifier = data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+        let tempStocks = [...this.state.stocks];
+        for (let i = 0; i < this.state.stocks.length; i++) {
+          tempStocks[i].value[0] = (tempStocks[i].value[0]*modifier).toFixed(2);
+          tempStocks[i].total = tempStocks[i].value[0]*tempStocks[i].amount;
+        }
+        this.setState({
+          currencyModifier: modifier,
+          selectedCurrency: newCurr,
+          stocks: tempStocks
+        });
+      })
+      .catch(error => console.error('Error:', error));
+
     }
 
     onDelete = () => {
@@ -94,7 +120,6 @@ class StockCard extends React.Component {
         selected: []
       });
     };
-
     
     handleAddNew = () => {
       fetch(url+'?function=TIME_SERIES_DAILY&symbol='+this.state.stockName+'&apikey='+apikey)
@@ -102,8 +127,13 @@ class StockCard extends React.Component {
         return results.json();
       }).then(data => {
         let values = [];
+        let modifier = 1;
+        if (this.state.selectedCurrency !== 'USD') {
+          modifier = this.state.currencyModifier;
+        }
         for (var key in data['Time Series (Daily)']) {
-          values.push(data['Time Series (Daily)'][key]['4. close']);
+          let x = (data['Time Series (Daily)'][key]['4. close']) * modifier;
+          values.push(x);
         }
         let tempStocks = [...this.state.stocks];
         tempStocks.push({stock: this.state.stockName, value: values, amount: this.state.stockAmount, total: values[0]*this.state.stockAmount, checked: false});
@@ -140,12 +170,20 @@ class StockCard extends React.Component {
               <p>Portfolio full</p>
             </Modal>
             <h1>{this.props.portfolioName}</h1>
+            <div align="center" className="curr-buttons">
+              <label>
+                <input type="radio" name="currency" value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>Usd
+              </label>
+              <label>
+                <input type="radio" name="currency" value="EUR" checked={this.state.selectedCurrency === 'EUR'} onChange={this.handleChangeCurrency}/>Eur
+              </label>
+            </div>
             <table className="portfolioTable">
               <TableHeader />
               <tbody>
               {this.state.stocks.map((item, key) => {
                 return (
-                  <TableStock data={item} key={key} id={key} onSelect={this.handleSelected}/>
+                  <TableStock data={item} key={key} id={key} onSelect={this.handleSelected} currency={this.state.selectedCurrency}/>
                 )
               })}
               </tbody>
@@ -162,13 +200,13 @@ class StockCard extends React.Component {
 
 class TableStock extends React.Component {
   render() {
-    const {data, onSelect, id} = this.props;
+    const {data, onSelect, id, currency} = this.props;
     return (
       <tr>
         <td>{data.stock}</td>
-        <td>{data.value[0]}</td>
+        <td>{data.value[0]} {currency}</td>
         <td>{data.amount}</td>
-        <td>{(data.total).toFixed(2)}</td>
+        <td>{(data.total).toFixed(2)} {currency}</td>
         <td><input type="checkbox" name={id} value={data.stock} onChange={onSelect} checked={data.checked}/></td>
       </tr>
     )
@@ -193,7 +231,7 @@ const TableFooter = (props) => {
   return (
     <tfoot className="tableFooter">
       <tr>
-        <td>Total value of portfolio:{props.total}</td>
+        <td>Total value of portfolio:{props.total.toFixed(2)}</td>
       </tr>
     </tfoot>
   )
