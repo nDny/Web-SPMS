@@ -11,6 +11,10 @@ const url = 'https://www.alphavantage.co/query';
 const apikey = 'DKS7EZJHQPLHV5WG';
 
 class StockCard extends React.Component {
+  
+  //Main class where everything in the portfolio "card" happens
+  //Short functions mainly handles hiding modals and/or deleting 
+
   onDeletePortfolio = this.props.onDeletePortfolio;
   id = this.props.id
 
@@ -37,6 +41,9 @@ class StockCard extends React.Component {
     }
 
     handleChangeCurrency = (e) => {
+
+      //Get currency exchange rate to chosen currency and update value list
+      
       let newCurr = e.target.value;
       let oldCurr = this.state.selectedCurrency;
       fetch(url+'?function=CURRENCY_EXCHANGE_RATE&from_currency='+oldCurr+'&to_currency='+newCurr+'&apikey='+apikey)
@@ -90,6 +97,9 @@ class StockCard extends React.Component {
     }
 
     handleSelected = (e) => {
+
+      //Function to keep track of which stocks are selected
+
       let tempSelected = [...this.state.selected];
       let index;
       let tempStocks = [...this.state.stocks];
@@ -110,6 +120,9 @@ class StockCard extends React.Component {
     }
 
     handleRemoveSelected = () => {
+
+      //Remove selected stocks
+
       let tempStocks = [...this.state.stocks];
       let selection = [...this.state.selected];
 
@@ -133,6 +146,9 @@ class StockCard extends React.Component {
     };
     
     handleAddNew = () => {
+
+      //Get the current stock data and add it as an array object in stocks
+
       fetch(url+'?function=TIME_SERIES_DAILY&symbol='+this.state.stockName+'&apikey='+apikey)
       .then(results => {
         return results.json();
@@ -168,6 +184,9 @@ class StockCard extends React.Component {
     }
 
     showGraphModal= () => {
+
+      //Display a graph of currently selected stock when graph button is pressed
+
       let selection = [...this.state.selected];
       let graphArray = [];
       let tempStocks = [...this.state.stocks];
@@ -176,7 +195,6 @@ class StockCard extends React.Component {
       for (let i = 0; i < selection.length; i++) {
         for (let j = 0; j < tempStocks.length; j++) {
           if (selection[i] === tempStocks[j].stock) {
-            console.log('tempStocks[j]', tempStocks[j]);
             name = tempStocks[j].stock;
             for (let x = 0; x < tempStocks[j].value.length; x++) {
               graphArray.push({[tempStocks[j].stock]: tempStocks[j].value[x]});
@@ -238,6 +256,9 @@ class StockCard extends React.Component {
 }
 
 class GraphStuff extends React.Component {
+
+  //Using recharts library, display graph
+
   render() {
     return (
       <div align="center">
@@ -253,6 +274,9 @@ class GraphStuff extends React.Component {
 }
 
 class TableStock extends React.Component {
+
+  //Dynamic table updating with stocks
+
   render() {
     const {data, onSelect, id, currency} = this.props;
     return (
