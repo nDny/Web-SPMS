@@ -4,7 +4,7 @@ import '../components/table.css';
 import './stockcard.css';
 import {CardButtonGroup} from '../components/buttons.js';
 import Modal from './modal.js';
-import {LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts';
+import {LineChart, Line, CartesianGrid, XAxis, YAxis} from 'recharts';
 
 
 const url = 'https://www.alphavantage.co/query';
@@ -15,6 +15,7 @@ class StockCard extends React.Component {
   id = this.props.id
 
     state = {
+      graphArray: [],
       showChart: false,
       currencyModifier: 1,
       selectedCurrency: "USD",
@@ -27,11 +28,6 @@ class StockCard extends React.Component {
       total: 0
     }
 
-    showChartModal = () => {
-      this.setState({
-        showChart: true
-      });
-    }
 
     hideChartModal = () => {
       this.setState({
@@ -170,20 +166,32 @@ class StockCard extends React.Component {
       });
     }
 
-    setGraphArray = () => {
-      
+    showGraphModal= () => {
+      let selection = [...this.state.selected];
+      let graphArray = [];
+      let tempStocks = [...this.state.stocks];
+      let name;
+
+      for (let i = 0; i < selection.length; i++) {
+        for (let j = 0; j < tempStocks.length; j++) {
+          if (selection[i] === tempStocks[j].stock) {
+            console.log('tempStocks[j]', tempStocks[j]);
+            name = tempStocks[j].stock;
+            for (let x = 0; x < tempStocks[j].value.length; x++) {
+              graphArray.push({[tempStocks[j].stock]: tempStocks[j].value[x]});
+            }
+            break;
+          }
+        }
+      }
+      this.setState({
+        graphName: name,
+        showChart: true,
+        graphArray: graphArray
+      });
     }
 
       render() {
-        const arr = [
-          {uv: 4000, pv: 2400, amt: 2400},
-          {uv: 3000, pv: 1398, amt: 2210},
-          {uv: 2000, pv: 9800, amt: 2290},
-          {uv: 2780, pv: 3908, amt: 2000},
-          {uv: 1890, pv: 4800, amt: 2181},
-          {uv: 2390, pv: 3800, amt: 2500},
-          {uv: 3490, pv: 4300, amt: 2100},
-        ];
 
         return (
           <div className="stockCard">
@@ -196,7 +204,7 @@ class StockCard extends React.Component {
               <p>Portfolio full</p>
             </Modal>
             <Modal show={this.state.showChart} handleDone={this.hideChartModal}>
-              <GraphStuff data={arr}/>
+              <GraphStuff data={this.state.graphArray} name={this.state.graphName} time={"Time"}/>
             </Modal>
             <h2 className="title-name">{this.props.portfolioName}</h2>
             <div align="center" className="curr-buttons">
@@ -221,7 +229,7 @@ class StockCard extends React.Component {
             <CardButtonGroup onAddNew={this.showModal} 
                              onDeletePortfolio={this.onDelete}
                              onRemoveSelected={this.handleRemoveSelected}
-                             onViewGraph={this.showChartModal}
+                             onViewGraph={this.showGraphModal}
                             />
           </div>
         )
@@ -232,12 +240,10 @@ class GraphStuff extends React.Component {
   render() {
     return (
       <div align="center">
-        <LineChart width={600} height={300} data={this.props.data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-          <Line type="monotone" dataKey="amt" stroke="#8884d8" />
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="name" />
+        <LineChart width={600} height={300} data={this.props.data} margin={{ top: 15, right: 5, bottom: 5, left: 5 }}>
+          <Line type="monotone" dataKey={this.props.name} stroke="#8884d8" dot={false}/>
+          <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+          <XAxis />
           <YAxis />
         </LineChart>
       </div>
