@@ -25,7 +25,8 @@ class StockCard extends React.Component {
       stockName: "",
       stockAmount: 0,
       selected: [],
-      total: 0
+      total: 0,
+      radioName: "currency"+this.id
     }
 
 
@@ -209,10 +210,10 @@ class StockCard extends React.Component {
             <h2 className="title-name">{this.props.portfolioName}</h2>
             <div align="center" className="curr-buttons">
               <label>
-                <input type="radio" name="currency" value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>USD
+                <input type="radio" name={this.state.radioName} value="USD" checked={this.state.selectedCurrency === 'USD'} onChange={this.handleChangeCurrency}/>USD
               </label>
               <label>
-                <input type="radio" name="currency" value="EUR" checked={this.state.selectedCurrency === 'EUR'} onChange={this.handleChangeCurrency}/>EUR
+                <input type="radio" name={this.state.radioName} value="EUR" checked={this.state.selectedCurrency === 'EUR'} onChange={this.handleChangeCurrency}/>EUR
               </label>
             </div>
             <table className="portfolioTable">
